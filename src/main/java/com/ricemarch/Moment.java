@@ -25,12 +25,11 @@ public class Moment {
 
     private int likeNum = 0;
 
-    @Relationship(direction = Relationship.INCOMING)
+    @Relationship(type = "BE_COMMENTED",direction = Relationship.INCOMING)
     private Set<Comment> comments;
     void addBeComments(Comment comment){
         if (comments == null) comments = new HashSet<>();
         comments.add(comment);
-
     }
 
     public int getLikeNum() {

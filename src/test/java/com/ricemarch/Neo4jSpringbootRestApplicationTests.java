@@ -38,27 +38,16 @@ class Neo4jSpringbootRestApplicationTests {
 //        System.out.println(m1.get(0));
 //        Comment c1 = new Comment("章子怡好看啊!");
 
-        User user1 = userRepo.findByName("李芳芳").get(0);
-       // Comment c1 = commentRepo.findByCconetnt("章子怡好看啊!");
-       // Moment m1 = momentRepo.findByTitle("WSZZY").get(0);
-     //   user1.addComments(c1);
-     //   m1.addBeComments(c1);
+        User user1 = userRepo.findByName("章子怡").get(0);
+       // Comment c1 = commentRepo.findByConetnt("章子怡好看啊!");
+        Comment c2 = new Comment("2.2最终测试，你也好看");
+        Moment m1 = momentRepo.findByTitle("WSLFF").get(0);
+        user1.addComments(c2);//user1发表评论c2
+        m1.addBeComments(c2);//m1被评论 内容是c2
 
         userRepo.save(user1);
-        //commentRepo.save(c1);
-       // momentRepo.save(m1);
-        //m1.addComments(c1);
-        // momentRepo.save(m1);
-        //commentRepo.save(c1);
-//       momentRepo.save(m1);
-//        momentRepo.save(m2);
-//        if (m1 != null && user1 != null) {
-//            user1.addMoments(m1);
-//        }
-//        userRepo.save(user1);
-//        userRepo.save(user2);
-//        userRepo.save(user3);
-
+        momentRepo.save(m1);
+        commentRepo.save(c2);
     }
 
 }
