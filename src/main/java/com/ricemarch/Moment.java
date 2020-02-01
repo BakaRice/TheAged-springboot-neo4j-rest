@@ -2,8 +2,12 @@ package com.ricemarch;
 
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
+import org.neo4j.ogm.annotation.Relationship;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Moment {
 
@@ -15,9 +19,19 @@ public class Moment {
 
     private String content;
 
+    private Timestamp sharetime;
+
     private ArrayList<String> imgUrls;
 
     private int likeNum = 0;
+
+    @Relationship(direction = Relationship.INCOMING)
+    private Set<Comment> comments;
+    void addBeComments(Comment comment){
+        if (comments == null) comments = new HashSet<>();
+        comments.add(comment);
+
+    }
 
     public int getLikeNum() {
         return likeNum;
@@ -49,6 +63,14 @@ public class Moment {
 
     public void setImgUrls(ArrayList<String> imgUrls) {
         this.imgUrls = imgUrls;
+    }
+
+    public Timestamp getSharetime() {
+        return sharetime;
+    }
+
+    public void setSharetime(Timestamp sharetime) {
+        this.sharetime = sharetime;
     }
 
     public Moment(String title, String content) {

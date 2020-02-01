@@ -3,6 +3,7 @@ package com.ricemarch;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.RelationshipEntity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,6 +35,17 @@ public class User {
             moments = new HashSet<>();
         }
         moments.add(moment);
+    }
+
+    //发表 comment
+    @Relationship(type = "COMMENT")
+    public Set<Comment> comments;
+
+    public void addComments(Comment comment) {
+        if (comments == null) {
+            comments = new HashSet<>();
+        }
+        comments.add(comment);
     }
 
 
