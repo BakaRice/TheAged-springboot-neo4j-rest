@@ -67,7 +67,8 @@ class Neo4jSpringbootRestApplicationTests {
 
     @Test
     void addMoments() {
-        Moment moment = momentRepo.findByTitle("wslff2").get(0);
+        //Moment moment = momentRepo.findByTitle("我是芳芳嗷").get(0);
+        Moment moment = new Moment("我是1芳嗷","wsffa");
         User user2 = userRepo.findByName("李芳芳").get(0);
         user2.addMoments(moment);
         userRepo.save(user2);
