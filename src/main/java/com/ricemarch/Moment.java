@@ -15,6 +15,9 @@ public class Moment {
     @GeneratedValue
     private Long id;
 
+    //用来找到发送人
+    private String UserId;
+
     private String title;
 
     private String content;
@@ -25,9 +28,10 @@ public class Moment {
 
     private int likeNum = 0;
 
-    @Relationship(type = "BE_COMMENTED",direction = Relationship.INCOMING)
+    @Relationship(type = "BE_COMMENTED", direction = Relationship.INCOMING)
     private Set<Comment> comments;
-    void addBeComments(Comment comment){
+
+    void addBeComments(Comment comment) {
         if (comments == null) comments = new HashSet<>();
         comments.add(comment);
     }
@@ -70,6 +74,14 @@ public class Moment {
 
     public void setSharetime(Timestamp sharetime) {
         this.sharetime = sharetime;
+    }
+
+    public String getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(String userId) {
+        UserId = userId;
     }
 
     public Moment(String title, String content) {

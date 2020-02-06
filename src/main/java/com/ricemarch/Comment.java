@@ -15,6 +15,8 @@ public class Comment {
     //评论内容
     private String conetnt;
 
+    //用来找到发送人
+    private String UserId;
 
     //对 comment 发表 comment
     @Relationship(type = "COMMENT_IN_COMMENT")
@@ -38,6 +40,23 @@ public class Comment {
 //        if (beComments == null) beComments = new HashSet<>();
 //        beComments.add(comment);
 //    }
+
+
+    public String getConetnt() {
+        return conetnt;
+    }
+
+    public void setConetnt(String conetnt) {
+        this.conetnt = conetnt;
+    }
+
+    public String getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(String userId) {
+        UserId = userId;
+    }
 
     public Comment(String c) {
         conetnt = c;

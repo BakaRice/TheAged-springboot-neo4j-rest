@@ -3,7 +3,7 @@ package com.ricemarch;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.Relationship;
-import org.neo4j.ogm.annotation.RelationshipEntity;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -46,6 +46,16 @@ public class User {
             comments = new HashSet<>();
         }
         comments.add(comment);
+    }
+
+    @Relationship(type = "FOLLOW")
+    public Set<User> follower;
+
+    public void addToFollower(User user) {
+        if (follower == null) {
+            follower = new HashSet<>();
+        }
+        follower.add(user);
     }
 
 
