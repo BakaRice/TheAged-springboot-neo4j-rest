@@ -42,7 +42,7 @@ class Neo4jSpringbootRestApplicationTests {
 //        System.out.println(m1.get(0));
 //        Comment c1 = new Comment("章子怡好看啊!");
 
-        User user1 = userRepo.findByName("章子怡").get(0);
+        User user1 = userRepo.findByName("章子怡");
         // Comment c1 = commentRepo.findByConetnt("章子怡好看啊!");
         Comment c2 = new Comment("2.2最终测试，你也好看");
         Moment m1 = momentRepo.findByTitle("WSLFF").get(0);
@@ -68,9 +68,17 @@ class Neo4jSpringbootRestApplicationTests {
     @Test
     void addMoments() {
         //Moment moment = momentRepo.findByTitle("我是芳芳嗷").get(0);
-        Moment moment = new Moment("我是1芳嗷","wsffa");
-        User user2 = userRepo.findByName("李芳芳").get(0);
+        Moment moment = new Moment("uuid我是1芳嗷", "wsffa");
+        User user2 = userRepo.findByName("李芳芳");
         user2.addMoments(moment);
+        userRepo.save(user2);
+    }
+
+    @Test
+    void addLike() {
+        User user2 = userRepo.findByName("posttest");
+        Moment moment = momentRepo.findByMomentUuid("8993da1b54674e5183f96c5841f5030b");
+        user2.addlikes(moment);
         userRepo.save(user2);
     }
 
@@ -82,8 +90,14 @@ class Neo4jSpringbootRestApplicationTests {
     }
 
     @Test
-    void aVoid() {
+    void addFollow() {
+        userRepo.addFollow("posttest", "posttest2");
+    }
 
+    @Test
+    void findfollow() {
+        int follow = userRepo.findFollow("posttest", "posttest2");
+        System.out.println(follow);
     }
 
 }

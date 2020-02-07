@@ -19,9 +19,6 @@ import java.util.List;
 public class MomentController {
 
     @Autowired
-    MomentRepository momentRepository;
-
-    @Autowired
     MomentService momentService;
 
     //返回当前username的用户关注的用户发布的朋友圈
@@ -33,13 +30,11 @@ public class MomentController {
 
     }
 
+    //返回当前username的用户关注的用户发布的朋友圈，按页分布
     @RequestMapping("/followbypages/{username}/{pages}")
     @ResponseBody
     public Page<Moment> findbyname2(@PathVariable String username, @PathVariable int pages) {
-//       Page<Moment> moments = momentRepository.getMomentFollwFormUserName_page(username, PageRequest.of(pages,1));
-//        return moments;
-
         return momentService.getPagerMomentsbyUsername(username, pages, 2);
 
     }
-            }
+}

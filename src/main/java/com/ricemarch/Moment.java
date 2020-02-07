@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public class Moment {
 
@@ -15,8 +16,8 @@ public class Moment {
     @GeneratedValue
     private Long id;
 
-    //用来找到发送人
-    private String UserId;
+    //通过uuid进行唯一标识
+    private String MomentUuid;
 
     private String title;
 
@@ -76,15 +77,17 @@ public class Moment {
         this.sharetime = sharetime;
     }
 
-    public String getUserId() {
-        return UserId;
+
+    public String getMomentUuid() {
+        return MomentUuid;
     }
 
-    public void setUserId(String userId) {
-        UserId = userId;
+    public void setMomentUuid(String momentUuid) {
+        MomentUuid = momentUuid;
     }
 
     public Moment(String title, String content) {
+        MomentUuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
         this.title = title;
         this.content = content;
     }

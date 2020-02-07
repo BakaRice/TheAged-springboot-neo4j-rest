@@ -11,7 +11,11 @@ import java.util.List;
 
 public interface MomentRepository extends PagingAndSortingRepository<Moment, Long> {
 
+
     List<Moment> findByTitle(@Param("title") String title);
+
+    @Query("match (m:Moment{MomentUuid:{MomentUuid}}) return m")
+    Moment findByMomentUuid(String MomentUuid);
 
     @Query("match (:User{name:{name}})-[:FOLLOW]->(:User)-[:PUBLISH]->(m:Moment) return m")
     List<Moment> getMomentFollwFormUserName(String name);
@@ -19,5 +23,6 @@ public interface MomentRepository extends PagingAndSortingRepository<Moment, Lon
     @Query(value = "match (:User{name:{name}})-[:FOLLOW]->(:User)-[:PUBLISH]->(m:Moment) return m",
             countQuery = "match (:User{name:{name}})-[:FOLLOW]->(:User)-[:PUBLISH]->(m:Moment) return count(m)")
     Page<Moment> getMomentFollwFormUserName_page(String name, Pageable pageable);
+
 
 }
