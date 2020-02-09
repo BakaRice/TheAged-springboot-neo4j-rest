@@ -51,12 +51,18 @@ public class UserService {
     public void updateLike(String name, String uuid) {
 
         int count = userRepository.findLike(name, uuid);
+        Moment moment = momentRepository.findByMomentUuid(uuid);
+
+        int likeCount = moment.getLikeNum();
         if (count == 0) {
             User user = userRepository.findByName(name);
-            Moment moment = momentRepository.findByMomentUuid(uuid);
+            moment.setLikeNum(likeCount + 1);//点赞数量+1
             user.addlikes(moment);
+            userRepository.save(user);
         } else if (count > 0) {
-            userRepository.deletefollow(name, uuid);
+            userRepository.deletelike(name, uuid);
+            if (likeCount > 0)
+                moment.setLikeNum(likeCount - 1);
         }
     }
 }

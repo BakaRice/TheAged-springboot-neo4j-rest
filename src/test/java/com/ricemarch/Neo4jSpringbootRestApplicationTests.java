@@ -10,11 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.security.Timestamp;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @SpringBootTest
 class Neo4jSpringbootRestApplicationTests {
@@ -68,7 +66,7 @@ class Neo4jSpringbootRestApplicationTests {
     @Test
     void addMoments() {
         //Moment moment = momentRepo.findByTitle("我是芳芳嗷").get(0);
-        Moment moment = new Moment("uuid我是1芳嗷", "wsffa");
+        Moment moment = new Moment("李芳芳", "uuid我是1芳嗷", "wsffa");
         User user2 = userRepo.findByName("李芳芳");
         user2.addMoments(moment);
         userRepo.save(user2);
@@ -100,4 +98,60 @@ class Neo4jSpringbootRestApplicationTests {
         System.out.println(follow);
     }
 
+    @Test
+    void addComment() {
+
+        Comment comment = new Comment("评论4");
+        commentRepo.save(comment);
+
+        User user2 = userRepo.findByName("posttest");
+        user2.addComments(comment);
+
+        Comment comment1 = commentRepo.findByCommentUuid("07f16f716b304b8e9924f3c3112bbf6b");
+        comment.addCommenToComment(comment1);
+
+        commentRepo.save(comment1);
+        userRepo.save(user2);
+
+    }
+
+    @Test
+    void findComment() {
+        Comment comment1 = commentRepo.findByCommentUuid("07f16f716b304b8e9924f3c3112bbf6b");
+        System.out.println(comment1);
+    }
+
+    @Test
+    void deleteComment() {
+        commentRepo.deleteComment("ea727063be414553ad34ea580b454e3c");
+    }
+
+    @Test
+    void addAllInfoMomment() {
+        Moment moment = new Moment("发布人1", "标题1", "正文1");
+        ArrayList<String> imgs = new ArrayList<>();
+        imgs.add("url1");
+        imgs.add("url2");
+        moment.setImgUrls(imgs);
+        momentRepo.save(moment);
+        momentRepo.addtimeMomentUuid(moment.getMomentUuid());
+        momentRepo.save(moment);
+    }
+
+    @Test
+    void addMomentAtom() {
+        ArrayList<String> imgs = new ArrayList<>();
+        imgs.add("url1");
+        imgs.add("url2");
+        String content = "testtest";
+        String title = "testtest";
+        String name = "testtest";
+        momentRepo.addMomentAtom(
+                UUID.randomUUID().toString().replace("-", "").toLowerCase(),
+                imgs,
+                name,
+                title,
+                content
+        );
+    }
 }

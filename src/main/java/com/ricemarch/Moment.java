@@ -19,11 +19,14 @@ public class Moment {
     //通过uuid进行唯一标识
     private String MomentUuid;
 
+    //发送人名（唯一值）,迫不得已的做法 感觉并不妥当
+    private String name;
+
     private String title;
 
     private String content;
 
-    private Timestamp sharetime;
+    private Long sharetime;
 
     private ArrayList<String> imgUrls;
 
@@ -32,7 +35,7 @@ public class Moment {
     @Relationship(type = "BE_COMMENTED", direction = Relationship.INCOMING)
     private Set<Comment> comments;
 
-    void addBeComments(Comment comment) {
+    public void addBeComments(Comment comment) {
         if (comments == null) comments = new HashSet<>();
         comments.add(comment);
     }
@@ -69,14 +72,13 @@ public class Moment {
         this.imgUrls = imgUrls;
     }
 
-    public Timestamp getSharetime() {
+    public Long getSharetime() {
         return sharetime;
     }
 
-    public void setSharetime(Timestamp sharetime) {
+    public void setSharetime(Long sharetime) {
         this.sharetime = sharetime;
     }
-
 
     public String getMomentUuid() {
         return MomentUuid;
@@ -86,8 +88,17 @@ public class Moment {
         MomentUuid = momentUuid;
     }
 
-    public Moment(String title, String content) {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Moment(String name, String title, String content) {
         MomentUuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
+        this.name = name;
         this.title = title;
         this.content = content;
     }

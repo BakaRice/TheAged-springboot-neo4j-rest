@@ -4,6 +4,7 @@ import org.neo4j.ogm.annotation.*;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 //@NodeEntity
 public class Comment {
@@ -12,16 +13,19 @@ public class Comment {
     @GeneratedValue
     private Long Id;
 
+    private String CommentUuid;
+
     //评论内容
     private String conetnt;
 
-    //用来找到发送人
-    private String UserId;
+    //发送人姓名 用来找到发送人
+    private String name;
 
     //对 comment 发表 comment
     @Relationship(type = "COMMENT_IN_COMMENT")
-    private  Set<Comment> comments;
-    void  addCommenToComment(Comment comment){
+    private Set<Comment> comments;
+
+    public void addCommenToComment(Comment comment) {
         if (comments == null) comments = new HashSet<>();
         comments.add(comment);
     }
@@ -41,6 +45,13 @@ public class Comment {
 //        beComments.add(comment);
 //    }
 
+    public String getCommentUuid() {
+        return CommentUuid;
+    }
+
+    public void setCommentUuid(String commentUuid) {
+        CommentUuid = commentUuid;
+    }
 
     public String getConetnt() {
         return conetnt;
@@ -50,15 +61,16 @@ public class Comment {
         this.conetnt = conetnt;
     }
 
-    public String getUserId() {
-        return UserId;
+    public String getName() {
+        return name;
     }
 
-    public void setUserId(String userId) {
-        UserId = userId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Comment(String c) {
+        CommentUuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
         conetnt = c;
     }
 }
