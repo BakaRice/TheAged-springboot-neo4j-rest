@@ -29,129 +29,53 @@ class Neo4jSpringbootRestApplicationTests {
     }
 
     @Test
-    void testSavaUser() {
+    void addUser() {
+        User user = new User("小谭");
 
-//        User user2 = new User("李芳芳");
-//        User user3 = new User("程耳");
-//        Moment m1 = new Moment("WSZZY", "CONTENT_WSZZY");
-//        Moment m2 = new Moment("WSLFF", "COTENT_WSLFF");
-//        userRepo.save(user2);
-//        Moment m1 = momentRepo.findByTitle("WSLFF").get(0);
-//        System.out.println(m1.get(0));
-//        Comment c1 = new Comment("章子怡好看啊!");
-
-        User user1 = userRepo.findByName("章子怡");
-        // Comment c1 = commentRepo.findByConetnt("章子怡好看啊!");
-        Comment c2 = new Comment("2.2最终测试，你也好看");
-        Moment m1 = momentRepo.findByTitle("WSLFF").get(0);
-        user1.addComments(c2);//user1发表评论c2
-        m1.addBeComments(c2);//m1被评论 内容是c2
-
-        userRepo.save(user1);
-        momentRepo.save(m1);
-        commentRepo.save(c2);
+        userRepo.save(user);
     }
 
     @Test
-    void addFollwer() {
-//        User user1 = userRepo.findByName("章子怡").get(0);
-//        User user2 = userRepo.findByName("李芳芳").get(0);
-        User user1 = new User("李芳芳");
-        User user2 = new User("程耳");
-        user2.addToFollower(user1);
+    void addFollower() {
+        User user1 = userRepo.findByName("程耳");
+        User user2 = userRepo.findByName("小谭");
+
+        user1.addToFollower(user2);
         userRepo.save(user1);
         userRepo.save(user2);
-    }
-
-    @Test
-    void addMoments() {
-        //Moment moment = momentRepo.findByTitle("我是芳芳嗷").get(0);
-        Moment moment = new Moment("李芳芳", "uuid我是1芳嗷", "wsffa");
-        User user2 = userRepo.findByName("李芳芳");
-        user2.addMoments(moment);
-        userRepo.save(user2);
-    }
-
-    @Test
-    void addLike() {
-        User user2 = userRepo.findByName("posttest");
-        Moment moment = momentRepo.findByMomentUuid("8993da1b54674e5183f96c5841f5030b");
-        user2.addlikes(moment);
-        userRepo.save(user2);
-    }
-
-    @Test
-    void findMomentByName() {
-
-        List<Moment> moments = momentRepo.getMomentFollwFormUserName("李芳芳");
-        System.out.println(moments.get(0).toString());
-    }
-
-    @Test
-    void addFollow() {
-        userRepo.addFollow("posttest", "posttest2");
-    }
-
-    @Test
-    void findfollow() {
-        int follow = userRepo.findFollow("posttest", "posttest2");
-        System.out.println(follow);
-    }
-
-    @Test
-    void addComment() {
-
-        Comment comment = new Comment("评论4");
-        commentRepo.save(comment);
-
-        User user2 = userRepo.findByName("posttest");
-        user2.addComments(comment);
-
-        Comment comment1 = commentRepo.findByCommentUuid("07f16f716b304b8e9924f3c3112bbf6b");
-        comment.addCommenToComment(comment1);
-
-        commentRepo.save(comment1);
-        userRepo.save(user2);
 
     }
 
     @Test
-    void findComment() {
-        Comment comment1 = commentRepo.findByCommentUuid("07f16f716b304b8e9924f3c3112bbf6b");
-        System.out.println(comment1);
+    void addPublish() {
+        Moment moment = momentRepo.findByMomentUuid("e5f847ea295a43a9a7e31b37f86fa915");
+//        Moment moment2 = momentRepo.findByMomentUuid("2a571a8a38fe49019188acad37f0c897");
+//        Moment moment3 = momentRepo.findByMomentUuid("aadcf8a28a29403594ecb3e5fcc1e88c");
+//        Moment moment4 = momentRepo.findByMomentUuid("d3365969a6a047cda0be77e05eac2d62");
+//        Moment moment5 = momentRepo.findByMomentUuid("21ed5be1ec534cc6b8492e99dfbe6380");
+
+        User user1 = userRepo.findByName("程耳");
+        user1.addMoments(moment);
+//        user1.addMoments(moment2);
+//        user1.addMoments(moment3);
+//        user1.addMoments(moment4);
+//        user1.addMoments(moment5);
+        userRepo.save(user1);
     }
 
-    @Test
-    void deleteComment() {
-        commentRepo.deleteComment("ea727063be414553ad34ea580b454e3c");
-    }
 
-    @Test
-    void addAllInfoMomment() {
-        Moment moment = new Moment("发布人1", "标题1", "正文1");
-        ArrayList<String> imgs = new ArrayList<>();
-        imgs.add("url1");
-        imgs.add("url2");
-        moment.setImgUrls(imgs);
-        momentRepo.save(moment);
-        momentRepo.addtimeMomentUuid(moment.getMomentUuid());
-        momentRepo.save(moment);
-    }
-
-    @Test
-    void addMomentAtom() {
-        ArrayList<String> imgs = new ArrayList<>();
-        imgs.add("url1");
-        imgs.add("url2");
-        String content = "testtest";
-        String title = "testtest";
-        String name = "testtest";
-        momentRepo.addMomentAtom(
-                UUID.randomUUID().toString().replace("-", "").toLowerCase(),
-                imgs,
-                name,
-                title,
-                content
-        );
-    }
+    /*
+    {
+  "name": "李芳芳",
+  "MomentUuid": "60460a8dc34e4f7581b2e9455873d08c",
+  "title": "5",
+  "imgUrls": [
+    "https://pixabay.com/get/57e5d6404855a414f6da8c7dda79367b1536dce555506c4870277bd0914dcd51bf_640.jpg",
+    "https://pixabay.com/get/55e2d3454853ad14f6da8c7dda79367b1536dce555506c4870277bd0914dcd51bf_640.jpg",
+    "https://pixabay.com/get/57e8d7414e51ab14f6da8c7dda79367b1536dce555506c4870277bd0914dcd51bf_640.jpg"
+  ],
+  "content": "wsffa",
+  "likeNum": 0
+}
+     */
 }

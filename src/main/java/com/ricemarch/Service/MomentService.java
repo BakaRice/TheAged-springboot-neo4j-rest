@@ -39,6 +39,11 @@ public class MomentService {
                 title,
                 content
         );
+    }
 
+    public void delMoments(String name, String uuid) {
+        Moment moment = momentRepository.findByMomentUuid(uuid);
+        if (moment.getName().equals(name))
+            momentRepository.delMomentByUuid(uuid);
     }
 }

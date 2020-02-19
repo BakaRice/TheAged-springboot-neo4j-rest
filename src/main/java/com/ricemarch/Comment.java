@@ -16,7 +16,7 @@ public class Comment {
     private String CommentUuid;
 
     //评论内容
-    private String conetnt;
+    private String content;
 
     //发送人姓名 用来找到发送人
     private String name;
@@ -53,12 +53,12 @@ public class Comment {
         CommentUuid = commentUuid;
     }
 
-    public String getConetnt() {
-        return conetnt;
+    public String getContent() {
+        return content;
     }
 
-    public void setConetnt(String conetnt) {
-        this.conetnt = conetnt;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getName() {
@@ -71,6 +71,6 @@ public class Comment {
 
     public Comment(String c) {
         CommentUuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
-        conetnt = c;
+        content = c;
     }
 }

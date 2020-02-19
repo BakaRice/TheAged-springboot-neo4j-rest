@@ -38,11 +38,9 @@ public interface MomentRepository extends PagingAndSortingRepository<Moment, Lon
             "sharetime:timestamp()," +
             "content:{content}" +
             ",likeNum:0})")
-    void addMomentAtom(
-            String MomentUuid,
-            ArrayList<String> list,
-            String name,
-            String title,
-            String content
-    );
+    void addMomentAtom(String MomentUuid, ArrayList<String> list, String name, String title, String content);
+
+    @Query("match (m:Moment{MomentUuid:{MomentUuid}}) detach delete m")
+    void delMomentByUuid(String MomentUuid);
+
 }
