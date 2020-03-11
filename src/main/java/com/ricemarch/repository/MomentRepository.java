@@ -1,6 +1,6 @@
 package com.ricemarch.repository;
 
-import com.ricemarch.Moment;
+import com.ricemarch.entity.Moment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.neo4j.annotation.Query;
@@ -42,5 +42,8 @@ public interface MomentRepository extends PagingAndSortingRepository<Moment, Lon
 
     @Query("match (m:Moment{MomentUuid:{MomentUuid}}) detach delete m")
     void delMomentByUuid(String MomentUuid);
+
+    @Query(value = "MATCH (n:Moment) RETURN n order by n.sharetime DESC",countQuery = "MATCH (n:Moment) RETURN count(n)")
+    Page<Moment> findAllMoment(Pageable pageable);
 
 }

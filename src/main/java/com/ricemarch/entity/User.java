@@ -1,4 +1,4 @@
-package com.ricemarch;
+package com.ricemarch.entity;
 
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;

@@ -1,4 +1,4 @@
-package com.ricemarch;
+package com.ricemarch.entity;
 
 import org.neo4j.ogm.annotation.*;
 
@@ -20,6 +20,11 @@ public class Comment {
 
     //发送人姓名 用来找到发送人
     private String name;
+
+    //指向人名用于标注回复
+    private String toName;
+
+    private Long time;
 
     //对 comment 发表 comment
     @Relationship(type = "COMMENT_IN_COMMENT")
@@ -45,12 +50,28 @@ public class Comment {
 //        beComments.add(comment);
 //    }
 
+    public String getToName() {
+        return toName;
+    }
+
+    public void setToName(String toName) {
+        this.toName = toName;
+    }
+
+    public Long getTime() {
+        return time;
+    }
+
+    public void setTime(Long createtime) {
+        this.time = createtime;
+    }
+
     public String getCommentUuid() {
         return CommentUuid;
     }
 
     public void setCommentUuid(String commentUuid) {
-        CommentUuid = commentUuid;
+        commentUuid = commentUuid;
     }
 
     public String getContent() {
@@ -72,5 +93,15 @@ public class Comment {
     public Comment(String c) {
         CommentUuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
         content = c;
+    }
+
+    public Comment(String content, String name, String toName) {
+        CommentUuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
+        this.content = content;
+        this.name = name;
+        this.toName = toName;
+    }
+
+    public Comment() {
     }
 }

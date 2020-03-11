@@ -1,10 +1,14 @@
 package com.ricemarch.Controller;
 
+import com.ricemarch.Dto.UserAddDto;
 import com.ricemarch.Service.UserService;
+import com.ricemarch.api.CommonResult;
+import com.ricemarch.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotNull;
 
 @Controller
 public class UserController {
@@ -12,12 +16,38 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping(value = "/users/add")
-    public void addUser(@RequestParam("name") String name) {
+    @RequestMapping(value = "/users/add/{username}")
+    @ResponseBody
+    public CommonResult addUser(@PathVariable String username) {
+        String failInfo;
+        try {
+            UserAddDto userAddDto = new UserAddDto();
+            userService.addUser(username);
+            userAddDto.setUsername(username);
+            return CommonResult.success(username);
+        } catch (Exception e) {
+            failInfo = e.toString();
+        }
+        return CommonResult.failed(failInfo);
 
-        userService.addUser(name);
     }
 
+    @RequestMapping(value = "/users/status/{username}")
+    @ResponseBody
+    public User findUser(@PathVariable String username) {
+//        UserStatusDto userStatusDto = new UserStatusDto();
+        try {
+            @NotNull
+            User user = userService.findUser(username);
+//            userStatusDto.setUser(user);
+//            return CommonResult.success(userStatusDto);
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        return CommonResult.failed();
+        return null;
+    }
 
     @PostMapping(value = "/users/like")
     public void updateLikes(@RequestParam("selfname") String name, @RequestParam("momentId") String uuid) {

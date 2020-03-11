@@ -1,12 +1,14 @@
 package com.ricemarch.Service;
 
-import com.ricemarch.Comment;
-import com.ricemarch.Moment;
-import com.ricemarch.User;
+import com.ricemarch.entity.Comment;
+import com.ricemarch.entity.Moment;
+import com.ricemarch.entity.User;
 import com.ricemarch.repository.CommentRepository;
 import com.ricemarch.repository.MomentRepository;
 import com.ricemarch.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,34 +21,36 @@ public class CommentService {
     @Autowired
     UserRepository userRepository;
 
-    public void addCommentToMoment(String name, String conetext, String m_uuid) {
-        Comment comment = new Comment(conetext);
-        comment.setName(name);
-
+    public void addCommentToMoment(String name, String context, String m_uuid) {
         Moment moment = momentRepository.findByMomentUuid(m_uuid);
-        User user = userRepository.findByName(name);
+        if (moment != null) {
 
-        user.addComments(comment);
-        moment.addBeComments(comment);
-
-        userRepository.save(user);
-        commentRepository.save(comment);
-        momentRepository.save(moment);
+            String toName = moment.getName();//moment对应发表人的name。
+            Comment comment = new Comment(context, name, toName);
+            commentRepository.addCommentAtomToM(
+                    m_uuid,
+                    comment.getCommentUuid(),
+                    comment.getContent(),
+                    comment.getName(),
+                    comment.getToName()
+            );
+        }
     }
 
+    public void addCommentToComment(String name, String content, String c_uuid) {
 
-    public void addCommentToComment(String name, String conetext, String c_uuid) {
-        Comment comment = new Comment(conetext);
-        comment.setName(name);
+        Comment beComment = commentRepository.findbyCommentUuid(c_uuid);
+        if (beComment != null) {
 
-        User user = userRepository.findByName(name);
-        Comment becomment = commentRepository.findByCommentUuid(c_uuid);
-        comment.addCommenToComment(becomment);
-        user.addComments(comment);
-
-        commentRepository.save(comment);
-        commentRepository.save(becomment);
-        userRepository.save(user);
+            String toName = beComment.getName();//comment对应发表人的name
+            Comment comment = new Comment(content, name, toName);
+            commentRepository.addCommentAtomToC(
+                    c_uuid,
+                    comment.getCommentUuid(),
+                    comment.getContent(),
+                    comment.getName(),
+                    comment.getToName());
+        }
 
     }
 
@@ -55,4 +59,15 @@ public class CommentService {
             commentRepository.deleteComment(uuid);
 
     }
+
+    public Page<Comment> getPagerCommentByMomentUuid(String m_uuid, int page, int size) {
+        Page<Comment> comments = commentRepository.getCommentByMoentUuid_page(m_uuid, PageRequest.of(page, size));
+        return comments;
+    }
+
+    public Page<Comment> getPagerReplyByCommentUuid(String C_uuid, int page, int size) {
+        Page<Comment> comments = commentRepository.getReplyByCommentUuid_page(C_uuid, PageRequest.of(page, size));
+        return comments;
+    }
+
 }

@@ -1,18 +1,14 @@
 package com.ricemarch;
 
+import com.ricemarch.entity.Comment;
+import com.ricemarch.entity.Moment;
+import com.ricemarch.entity.User;
 import com.ricemarch.repository.CommentRepository;
 import com.ricemarch.repository.MomentRepository;
 import com.ricemarch.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-
-import java.security.Timestamp;
-import java.time.Month;
-import java.util.*;
 
 @SpringBootTest
 class Neo4jSpringbootRestApplicationTests {
@@ -63,6 +59,11 @@ class Neo4jSpringbootRestApplicationTests {
         userRepo.save(user1);
     }
 
+
+    @Test
+    void findComment(){
+        Comment beComment = commentRepo.findbyCommentUuid("dd2ade23b5f14e489322bb10f317bffd");
+    }
 
     /*
     {

@@ -1,17 +1,14 @@
 package com.ricemarch.repository;
 
-import com.ricemarch.User;
+import com.ricemarch.entity.User;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-import java.util.Set;
-
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
+    @Query("match (u:User{name:{name}}) return u")
     User findByName(@Param("name") String name);
-
 
     @Query("match (u:User{name:{name1}}),(u2:User{name:{name2}}) create (u)-[:FOLLOW]->(u2)")
     void addFollow(String name1, String name2);
@@ -28,5 +25,6 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
     @Query("match (u:User{name:{name}})-[r:LIKE_IN]->(:Moment{MomentUuid:{uuid}})  delete r")
     void deletelike(String name,String uuid);
+
 
 }

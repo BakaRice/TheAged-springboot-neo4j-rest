@@ -1,10 +1,11 @@
 package com.ricemarch.Controller;
 
 import com.ricemarch.Service.CommentService;
+import com.ricemarch.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class CommentController {
@@ -38,5 +39,17 @@ public class CommentController {
             @RequestParam("c_uuid") String c_uuid,
             @RequestParam("name") String name) {
         commentService.deleteComment(c_uuid, name);
+    }
+
+    @RequestMapping(value = "/comments/MomentUuid={MomentUuid}&per_page={perpage}&page={pages}")
+    @ResponseBody
+    public Page<Comment> findbyUuid(@PathVariable String MomentUuid, @PathVariable int pages, @PathVariable int perpage) {
+        return commentService.getPagerCommentByMomentUuid(MomentUuid, pages, perpage);
+    }
+
+    @RequestMapping(value = "/comments/Reply/CommentUuid={CommentUuid}&per_page={perpage}&page={pages}")
+    @ResponseBody
+    public Page<Comment> findReplybyCommentUuid(@PathVariable String CommentUuid, @PathVariable int pages, @PathVariable int perpage) {
+        return commentService.getPagerReplyByCommentUuid(CommentUuid, pages, perpage);
     }
 }
